@@ -36,6 +36,10 @@ public class WhitelistSettingController {
     public JsonResponse regist(){
         return JsonResponse.success(1);
     }
+    @RequestMapping("registzsy")
+    public JsonResponse registzsy(){
+        return JsonResponse.success(1);
+    }
 }
 
 
