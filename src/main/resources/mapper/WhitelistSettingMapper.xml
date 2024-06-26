@@ -9,10 +9,9 @@
         <result column="password" property="password" />
         <result column="name" property="name" />
         <result column="role_id" property="roleId" />
-        <result column="is_enabled" property="isEnabled" />
-        <result column="is_deleted" property="isDeleted" />
+        <result column="is_enabled" property="enabled" />
+        <result column="is_deleted" property="deleted" />
         <result column="gmt_created" property="gmtCreated" />
         <result column="gmt_modified" property="gmtModified" />
     </resultMap>
-
 </mapper>

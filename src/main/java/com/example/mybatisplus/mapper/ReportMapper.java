@@ -1,6 +1,6 @@
 package com.example.mybatisplus.mapper;
 
-import com.example.mybatisplus.model.domain.Registration;
+import com.example.mybatisplus.model.domain.Report;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author lxp
- * @since 2024-06-23
+ * @since 2024-06-26
  */
-public interface RegistrationMapper extends BaseMapper<Registration> {
+public interface ReportMapper extends BaseMapper<Report> {
 
 }
