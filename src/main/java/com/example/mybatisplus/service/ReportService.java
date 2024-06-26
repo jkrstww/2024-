@@ -1,6 +1,6 @@
 package com.example.mybatisplus.service;
 
-import com.example.mybatisplus.model.domain.Registration;
+import com.example.mybatisplus.model.domain.Report;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author lxp
- * @since 2024-06-23
+ * @since 2024-06-26
  */
-public interface RegistrationService extends IService<Registration> {
+public interface ReportService extends IService<Report> {
 
 }

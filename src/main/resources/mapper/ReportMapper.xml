@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mybatisplus.mapper.ReportMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.mybatisplus.model.domain.Report">
+        <id column="id" property="id" />
+        <result column="created_time" property="createdTime" />
+        <result column="is_deleted" property="deleted" />
+        <result column="s_id" property="sId" />
+        <result column="s_name" property="sName" />
+        <result column="s_gender" property="sGender" />
+        <result column="s_academy" property="sAcademy" />
+        <result column="s_phone" property="sPhone" />
+        <result column="problem" property="problem" />
+        <result column="consult_teacher" property="consultTeacher" />
+        <result column="evaluation" property="evaluation" />
+        <result column="times" property="times" />
+        <result column="age" property="age" />
+    </resultMap>
+
+</mapper>
