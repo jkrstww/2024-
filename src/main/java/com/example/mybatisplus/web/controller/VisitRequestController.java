@@ -15,6 +15,7 @@ import com.example.mybatisplus.common.JsonResponse;
 import com.example.mybatisplus.service.VisitRequestService;
 import com.example.mybatisplus.model.domain.VisitRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -32,10 +33,14 @@ import java.util.List;
 public class VisitRequestController {
     @Autowired
     private VisitRequestService visitRequestService;
+    @Autowired
+    private HttpServletRequest request;
 
     @PostMapping("/insert")
     public JsonResponse insert(@RequestBody VisitRequest visitRequest) {
         // System.out.println(visitRequest);
+        String sId = (String)request.getSession().getAttribute("sn");
+        visitRequest.setSId(sId);
         visitRequestService.save(visitRequest);
         return JsonResponse.success("成功记录");
     }

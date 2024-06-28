@@ -13,5 +13,6 @@
         <result column="is_deleted" property="deleted" />
         <result column="gmt_created" property="gmtCreated" />
         <result column="gmt_modified" property="gmtModified" />
+        <result column="phone_number" property="phoneNumber" />
     </resultMap>
 </mapper>

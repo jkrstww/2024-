@@ -22,5 +22,9 @@ public interface VisitRecordService extends IService<VisitRecord> {
 
     Page<VisitRecord> pageList(PageDTO pageDTO);
 
-    boolean cancleAbled(Integer id);
+    boolean cancleAbled(Long id);
+
+    Page<VisitRecord> myPageList(String id, PageDTO pageDTO);
+
+    Page<VisitRecord> myApprovedPageList(String id, PageDTO pageDTO);
 }

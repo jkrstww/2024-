@@ -31,19 +31,6 @@ public class WhitelistSettingController {
         WhitelistSetting user = whitelistSettingService.login(whitelistSetting);
         return JsonResponse.success(user);
     }
-
-    @RequestMapping("regist")
-    public JsonResponse regist(){
-        return JsonResponse.success(1);
-    }
-
-    @RequestMapping("zzk")
-    public JsonResponse zzk(){return JsonResponse.success("zzk");}
-
-    @RequestMapping("registzsy")
-    public JsonResponse registzsy(){
-        return JsonResponse.success(1);
-    }
 }
 
 

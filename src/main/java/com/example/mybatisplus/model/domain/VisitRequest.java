@@ -36,6 +36,7 @@ public class VisitRequest extends Model<VisitRequest> {
     private Long id;
 
     @TableField("created_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdTime;
 
     @TableField("is_deleted")

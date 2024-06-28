@@ -34,6 +34,7 @@ public class VisitRecord extends Model<VisitRecord> {
     private Long id;
 
     @TableField("created_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdTime;
 
     @TableField("is_deleted")
@@ -62,6 +63,19 @@ public class VisitRecord extends Model<VisitRecord> {
     private Integer pId;
 
     private String conclusion;
+
+    private Boolean isDanger;
+
+    private Boolean isHandled;
+
+    private Boolean isApproved;
+
+    private Boolean isFinished;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime finishTime;
+
+    private String status;
 
 
     @Override
