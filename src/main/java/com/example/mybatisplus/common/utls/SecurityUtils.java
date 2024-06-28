@@ -41,7 +41,6 @@ public class SecurityUtils {
             userInfoDTO.setUserType(userInfo.getRoleId());
         }
 
-        System.out.println(userInfoDTO);
         return userInfoDTO;
     }
 }
