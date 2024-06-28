@@ -12,6 +12,10 @@ import com.example.mybatisplus.common.JsonResponse;
 import com.example.mybatisplus.service.ClientService;
 import com.example.mybatisplus.model.domain.Client;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/client")
@@ -59,6 +63,21 @@ public class ClientController {
         QueryWrapper<Client> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("role_id", 4);
         return JsonResponse.success(clientService.list(queryWrapper));
+    }
+
+    @PostMapping("/login")
+    public JsonResponse login(HttpServletRequest request, @RequestBody Client client) {
+        QueryWrapper<Client> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("s_id", client.getSId())
+                .eq("password", client.getPassword());
+        List<Client> list = clientService.list(queryWrapper);
+        if (!list.isEmpty()) {
+            //第一步：获取session
+            HttpSession session = request.getSession();
+            //第二步：将想要保存到数据存入session中
+            session.setAttribute("sn",client.getSId());
+            return JsonResponse.success(1);
+        } else return JsonResponse.failure("错误");
     }
 }
 

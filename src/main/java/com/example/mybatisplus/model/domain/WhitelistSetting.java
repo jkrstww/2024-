@@ -49,6 +49,8 @@ public class WhitelistSetting extends Model<WhitelistSetting> {
 
     private LocalDateTime gmtModified;
 
+    private String phoneNumber;
+
 
     @Override
     protected Serializable pkVal() {

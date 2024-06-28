@@ -14,6 +14,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,8 +61,8 @@ public class FileController {
 
     // 下载咨询报告表
     @RequestMapping("/downloadReport")
-    public void downloadDispatchList(Integer id, HttpServletResponse response) throws IOException {
-
+    public void downloadDispatchList(Long id, HttpServletResponse response) throws IOException {
+        // Long id = r.getId();
         Report report = reportService.getById(id);
         File sourceFile = new File("src/main/resources/static/test.docx");
 
@@ -85,8 +86,8 @@ public class FileController {
 
         //浏览器端下载
         response.setCharacterEncoding("utf-8");
-        response.setContentType("application/msword");
-        String fileName = "咨询报告表" + ".docx";
+        response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        String fileName = "咨询报告表_" + System.currentTimeMillis() + ".docx";
         response.setHeader("Content-Disposition", "attachment;filename="
                 .concat(String.valueOf(URLEncoder.encode(fileName, "UTF-8"))));
         response.flushBuffer();

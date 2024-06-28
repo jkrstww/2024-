@@ -15,6 +15,12 @@
         <result column="problem" property="problem" />
         <result column="conclusion" property="conclusion" />
         <result column="p_id" property="pId" />
+        <result column="is_danger" property="isDanger" />
+        <result column="is_handled" property="isHandled" />
+        <result column="is_approved" property="isApproved" />
+        <result column="is_finished" property="isFinished" />
+        <result column="finish_time" property="finishTime" />
+        <result column="status" property="status" />
     </resultMap>
     <select id="getDTO" resultType="com.example.mybatisplus.model.dto.ConsultTeacherDTO">
         select visit_teacher as name, count(*) as times from visit_record group by visit_teacher

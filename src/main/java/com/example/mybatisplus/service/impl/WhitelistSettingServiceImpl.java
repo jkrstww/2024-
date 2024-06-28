@@ -1,6 +1,8 @@
 package com.example.mybatisplus.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.mybatisplus.common.utls.SessionUtils;
 import com.example.mybatisplus.model.domain.WhitelistSetting;
 import com.example.mybatisplus.mapper.WhitelistSettingMapper;
 import com.example.mybatisplus.service.WhitelistSettingService;
@@ -22,10 +24,14 @@ public class WhitelistSettingServiceImpl extends ServiceImpl<WhitelistSettingMap
     private WhitelistSettingMapper whitelistSettingMapper;
     @Override
     public WhitelistSetting login(WhitelistSetting whitelistSetting) {
-        LambdaQueryWrapper<WhitelistSetting> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(WhitelistSetting::getSn, whitelistSetting.getSn())
-                .eq(WhitelistSetting::getPassword, whitelistSetting.getPassword())
-                .eq(WhitelistSetting::getEnabled, true);
-        return whitelistSettingMapper.selectOne(wrapper);
+        QueryWrapper<WhitelistSetting> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("sn", whitelistSetting.getSn())
+                .eq("password", whitelistSetting.getPassword())
+                .eq("is_enabled", true);
+
+        WhitelistSetting one = whitelistSettingMapper.selectOne(queryWrapper);
+        SessionUtils.saveCurrentUserInfo(one);
+
+        return whitelistSettingMapper.selectOne(queryWrapper);
     }
 }

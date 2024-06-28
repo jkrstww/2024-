@@ -51,12 +51,38 @@ public class VisitRecordServiceImpl extends ServiceImpl<VisitRecordMapper, Visit
     }
 
     @Override
-    public boolean cancleAbled(Integer id) {
+    public boolean cancleAbled(Long id) {
         VisitRecord visitRecord = visitRecordMapper.selectById(id);
+        // 待批准可以直接删
+        if ("待批准".equals(visitRecord.getStatus())) return true;
+
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime visitTime = visitRecord.getVisitTime();
         LocalDateTime lastCancleTime = visitTime.minusDays(1);
 
         return now.isBefore(lastCancleTime);
+    }
+
+    @Override
+    public Page<VisitRecord> myPageList(String id, PageDTO pageDTO) {
+        Integer PageNo = pageDTO.getPageNo();
+        Integer PageSize = pageDTO.getPageSize();
+        Page<VisitRecord> page = new Page<>(PageNo, PageSize);
+
+        QueryWrapper<VisitRecord> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("s_id", id);
+        return visitRecordMapper.selectPage(page, queryWrapper);
+    }
+
+    @Override
+    public Page<VisitRecord> myApprovedPageList(String id, PageDTO pageDTO) {
+        Integer PageNo = pageDTO.getPageNo();
+        Integer PageSize = pageDTO.getPageSize();
+        Page<VisitRecord> page = new Page<>(PageNo, PageSize);
+
+        QueryWrapper<VisitRecord> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("s_id", id)
+                .eq("is_approved", true);
+        return visitRecordMapper.selectPage(page, queryWrapper);
     }
 }

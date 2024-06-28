@@ -1,5 +1,7 @@
 package com.example.mybatisplus.web.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mybatisplus.model.dto.PageDTO;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 import org.slf4j.Logger;
@@ -36,6 +38,12 @@ public class ReportController {
     public JsonResponse update(@RequestBody Report report) {
         reportService.updateById(report);
         return JsonResponse.success("修改成功");
+    }
+
+    @PostMapping("getReport")
+    public JsonResponse getReport(@RequestBody PageDTO pageDTO) {
+        Page<Report> page = reportService.getReportPage(pageDTO);
+        return JsonResponse.success(page);
     }
 }
 
