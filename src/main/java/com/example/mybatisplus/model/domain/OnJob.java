@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -17,40 +20,40 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author lxp
- * @since 2024-06-22
+ * @since 2024-06-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="WhitelistSetting对象", description="")
-public class WhitelistSetting extends Model<WhitelistSetting> {
+@ApiModel(value="OnJob对象", description="")
+public class OnJob extends Model<OnJob> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    private String sn;
-
-    private String password;
-
-    private String name;
-
-    private Long roleId;
-
-    @TableField("is_enabled")
-    private Integer enabled;
+    @TableField("created_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdTime;
 
     @TableField("is_deleted")
     @TableLogic
     private Integer deleted;
 
-    private LocalDateTime gmtCreated;
+    @JsonProperty("pId")
+    private Long pId;
 
-    private LocalDateTime gmtModified;
+    @TableField("role_id")
+    private Integer roleId;
 
-    private String phoneNumber;
+    @TableField("job_location")
+    private String jobLocation;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime jobTime;
+
+    private Integer status;
 
     @Override
     protected Serializable pkVal() {

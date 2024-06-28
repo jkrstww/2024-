@@ -12,6 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2024-06-22
  */
 public interface WhitelistSettingService extends IService<WhitelistSetting> {
-
+// test001
     WhitelistSetting login(WhitelistSetting whitelistSetting);
 }
