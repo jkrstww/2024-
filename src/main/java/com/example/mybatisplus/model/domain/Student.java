@@ -3,7 +3,6 @@ package com.example.mybatisplus.model.domain;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -17,13 +16,13 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author lxp
- * @since 2024-06-22
+ * @since 2024-06-30
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="WhitelistSetting对象", description="")
-public class WhitelistSetting extends Model<WhitelistSetting> {
+@ApiModel(value="Student对象", description="")
+public class Student extends Model<Student> {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,30 +31,19 @@ public class WhitelistSetting extends Model<WhitelistSetting> {
 
     private String sn;
 
-    private String password;
-
     private String name;
 
-    private Long roleId;
+    private Integer gender;
 
-    @TableField("is_enabled")
-    private Integer enabled;
+    private String campus;
+
+    private String college;
+
+    private String phoneNumber;
 
     @TableField("is_deleted")
     @TableLogic
     private Integer deleted;
-
-    private LocalDateTime gmtCreated;
-
-    private LocalDateTime gmtModified;
-
-    private String phoneNumber;
-
-    private Boolean onDuty;
-
-    private String workDay;
-
-    private Long workPlace;
 
 
     @Override

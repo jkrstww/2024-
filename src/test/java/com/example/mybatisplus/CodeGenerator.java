@@ -187,7 +187,7 @@ public class CodeGenerator {
         strategy.setEntityLombokModel(true);//启用lombok注解
         strategy.setChainModel(true);//启用lombok链式注解
 
-        strategy.setInclude("consult_record");
+        strategy.setInclude("add_request");
 
        //strategy.setTablePrefix("caps_");//去表前缀配置
 

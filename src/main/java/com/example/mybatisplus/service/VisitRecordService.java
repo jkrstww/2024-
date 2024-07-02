@@ -5,6 +5,10 @@ import com.example.mybatisplus.common.JsonResponse;
 import com.example.mybatisplus.model.domain.VisitRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.mybatisplus.model.dto.PageDTO;
+import com.example.mybatisplus.model.dto.VisitConclusionDTO;
+import com.example.mybatisplus.model.dto.VisitConclusionSearchDTO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -27,4 +31,14 @@ public interface VisitRecordService extends IService<VisitRecord> {
     Page<VisitRecord> myPageList(String id, PageDTO pageDTO);
 
     Page<VisitRecord> myApprovedPageList(String id, PageDTO pageDTO);
+
+    Page<VisitRecord> unfinishedPageListByRisk(PageDTO pageDTO);
+
+    Page<VisitRecord> unfinishedPageListByTime(PageDTO pageDTO);
+
+    Page<VisitRecord> awaitUpdatePageList(PageDTO pageDTO);
+
+    List<VisitConclusionDTO> visitorQueryRecords(VisitConclusionSearchDTO visitConclusionSearchDTO);
+
+    Integer visitorQueryRecordsTotal(VisitConclusionSearchDTO visitConclusionSearchDTO);
 }

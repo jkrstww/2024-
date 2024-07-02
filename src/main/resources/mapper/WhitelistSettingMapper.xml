@@ -14,5 +14,8 @@
         <result column="gmt_created" property="gmtCreated" />
         <result column="gmt_modified" property="gmtModified" />
         <result column="phone_number" property="phoneNumber" />
+        <result column="on_duty" property="onDuty" />
+        <result column="work_day" property="workDay" />
+        <result column="work_place" property="workPlace" />
     </resultMap>
 </mapper>

@@ -28,6 +28,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/file")
@@ -87,7 +88,7 @@ public class FileController {
         //浏览器端下载
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-        String fileName = "咨询报告表_" + System.currentTimeMillis() + ".docx";
+        String fileName = "咨询报告表_" + UUID.randomUUID() + ".docx";
         response.setHeader("Content-Disposition", "attachment;filename="
                 .concat(String.valueOf(URLEncoder.encode(fileName, "UTF-8"))));
         response.flushBuffer();

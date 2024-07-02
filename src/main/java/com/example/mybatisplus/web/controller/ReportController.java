@@ -1,7 +1,10 @@
 package com.example.mybatisplus.web.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mybatisplus.common.utls.SessionUtils;
 import com.example.mybatisplus.model.dto.PageDTO;
+import com.example.mybatisplus.model.dto.ReportPageDTO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 import org.slf4j.Logger;
@@ -44,6 +47,32 @@ public class ReportController {
     public JsonResponse getReport(@RequestBody PageDTO pageDTO) {
         Page<Report> page = reportService.getReportPage(pageDTO);
         return JsonResponse.success(page);
+    }
+
+    @PostMapping("/queryReport")
+    public JsonResponse queryReport(@RequestBody ReportPageDTO reportPageDTO) {
+        String name = SessionUtils.getCurrentUserInfo().getName();
+        reportPageDTO.getReport().setConsultTeacher(name);
+
+        return JsonResponse.success(reportService.queryReport(reportPageDTO));
+    }
+
+    @PostMapping("/generateReport")
+    public JsonResponse generateReport(@RequestBody Report report) {
+        String consultant = SessionUtils.getCurrentUserInfo().getName();
+        report.setConsultTeacher(consultant);
+        reportService.generate(report);
+
+        return JsonResponse.success(null);
+    }
+
+    @PostMapping("/recordTimes")
+    public JsonResponse recordTimes(@RequestBody Report report) {
+        String sn = report.getSId();
+        String consultant = SessionUtils.getCurrentUserInfo().getName();
+        Integer times = reportService.recordTimes(sn, consultant);
+
+        return JsonResponse.success(times);
     }
 }
 

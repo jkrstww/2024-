@@ -1,5 +1,8 @@
 package com.example.mybatisplus.web.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mybatisplus.model.dto.PageDTO;
+import com.example.mybatisplus.model.dto.TeacherDTO;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 import org.slf4j.Logger;
@@ -30,6 +33,62 @@ public class WhitelistSettingController {
     public JsonResponse login(@RequestBody WhitelistSetting whitelistSetting) {
         WhitelistSetting user = whitelistSettingService.login(whitelistSetting);
         return JsonResponse.success(user);
+    }
+
+    @PostMapping("/queryAll")
+    public JsonResponse queryAll(@RequestBody WhitelistSetting whitelistSetting) {
+        return JsonResponse.success(whitelistSettingService.queryAll(whitelistSetting));
+    }
+
+    @GetMapping("/getAll")
+    public JsonResponse getAll() {
+        return JsonResponse.success(whitelistSettingService.list());
+    }
+
+    @GetMapping("/pageList")
+    public JsonResponse getUserList(@RequestBody PageDTO pageDTO) {
+        Page<WhitelistSetting> page = whitelistSettingService.getUserList(pageDTO);
+        return JsonResponse.success(page);
+    }
+
+    @PostMapping("/teacherPageList")
+    public JsonResponse getTeacherList(@RequestBody TeacherDTO teacherDTO) {
+        Page<WhitelistSetting> page = whitelistSettingService.getTeacherList(teacherDTO);
+        return JsonResponse.success(page);
+    }
+
+    @PostMapping("/add")
+    public JsonResponse add(@RequestBody WhitelistSetting whitelistSetting) {
+        if (whitelistSettingService.existUser(whitelistSetting)) return JsonResponse.failure("该用户存在");
+
+        whitelistSettingService.save(whitelistSetting);
+        return JsonResponse.success(whitelistSetting);
+    }
+
+    @PostMapping("/deleteById")
+    public JsonResponse deleteById(@RequestBody WhitelistSetting whitelistSetting) {
+        whitelistSettingService.removeById(whitelistSetting.getId());
+
+        return JsonResponse.success(whitelistSetting);
+    }
+
+    // 更新
+    @PostMapping("/updateById")
+    public JsonResponse updateUser(@RequestBody WhitelistSetting whitelistSetting) {
+        System.out.println(whitelistSetting);
+        whitelistSettingService.updateById(whitelistSetting);
+        return JsonResponse.success(whitelistSetting);
+    }
+
+    // 注册
+    @PostMapping("/register")
+    public JsonResponse register(@RequestBody WhitelistSetting whitelistSetting) {
+        if (whitelistSettingService.existUser(whitelistSetting)) {
+            return JsonResponse.failure("用户已存在");
+        } else {
+            whitelistSettingService.save(whitelistSetting);
+            return JsonResponse.success(whitelistSetting);
+        }
     }
 }
 

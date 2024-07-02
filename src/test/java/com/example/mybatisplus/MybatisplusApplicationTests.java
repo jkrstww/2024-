@@ -5,14 +5,9 @@ import com.deepoove.poi.XWPFTemplate;
 import com.example.mybatisplus.mapper.ClientMapper;
 import com.example.mybatisplus.mapper.VisitRecordMapper;
 import com.example.mybatisplus.mapper.VisitRequestMapper;
-import com.example.mybatisplus.model.domain.Client;
-import com.example.mybatisplus.model.domain.Report;
-import com.example.mybatisplus.model.domain.VisitRecord;
-import com.example.mybatisplus.model.domain.VisitRequest;
+import com.example.mybatisplus.model.domain.*;
 import com.example.mybatisplus.model.dto.ConsultTeacherDTO;
-import com.example.mybatisplus.service.ClientService;
-import com.example.mybatisplus.service.VisitRecordService;
-import com.example.mybatisplus.service.VisitRequestService;
+import com.example.mybatisplus.service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +23,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +40,11 @@ class MybatisplusApplicationTests {
     private VisitRecordService visitRecordService;
     @Autowired
     private VisitRecordMapper visitRecordMapper;
+    @Autowired
+    private ConsultRecordService consultRecordService;
+    @Autowired
+    private WhitelistSettingService whitelistSettingService;
+
     @Test
     public void insertVisitRequest() {
         for (int i = 0; i < 10; i++) {
@@ -113,6 +114,26 @@ class MybatisplusApplicationTests {
         EasyExcel.write("src/main/resources/static/test.xlsx", ConsultTeacherDTO.class).sheet("模板").doWrite(list);
     }
 
+    @Test
+    public void test5() throws IOException {
+        for (int i = 0; i < 12; i++) {
+            consultRecordService.save(new ConsultRecord()
+                    .setPhoneNumber("18812345678")
+                    .setSId("2024"));
+        }
+    }
+
+    @Test
+    public void test6() throws IOException {
+        for (int i = 0; i < 12; i++) {
+            whitelistSettingService.save(new WhitelistSetting()
+                    .setRoleId((long)3)
+                    .setName("初访员" + i)
+                    .setPassword("123")
+                    .setSn("3000" + i)
+                    .setPhoneNumber("1788888" + i));
+        }
+    }
 //    @Autowired
 //    private AdminService adminService;
 //    @Test

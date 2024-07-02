@@ -15,10 +15,87 @@
         <result column="consult_status" property="consultStatus" />
         <result column="p_id" property="pId" />
         <result column="phone_number" property="phoneNumber" />
+        <result column="approved_status" property="approvedStatus" />
     </resultMap>
     <select id="match" resultType="com.example.mybatisplus.model.domain.ConsultRecord">
         select * from consult_record
         where #{consultRecord.consultTeacher}=consult_record.consult_teacher and #{consultRecord.sId}=consult_record.s_id
+    </select>
+    <select id="getConsultTimeEcharts" resultType="com.example.mybatisplus.model.dto.ConsultTeacherDTO">
+        select consult_teacher as name, count(*) as times from consult_record where consult_teacher is not null group by consult_teacher
+    </select>
+    <select id="consultantCheckRecord" resultType="com.example.mybatisplus.model.dto.ConsultRecordDTO">
+        select c.id as id, w.sn as sn, w.name as name, c.consult_location as location, c.consult_time as time, w.phone_number as phone,
+        c.consult_status as status from whitelist_setting w join consult_record c on w.sn = c.s_id
+        <where>
+            <if test="dto.sn != null and dto.sn != ''">
+                and w.sn = #{dto.sn}
+            </if>
+            <if test="dto.name != null and dto.name != ''">
+                and w.name = #{dto.name}
+            </if>
+            <if test="dto.consultant != null and dto.consultant != ''">
+                and c.consult_teacher = #{dto.consultant}
+            </if>
+            <if test="true">
+                and c.consult_status is null and c.is_deleted = 0
+            </if>
+        </where>
+        limit #{startIndex}, #{pageSize}
+    </select>
+    <select id="consultantCheckRecordTotal" resultType="java.lang.Integer">
+        select count(*) from whitelist_setting w join consult_record c on w.sn = c.s_id
+        <where>
+            <if test="dto.sn != null and dto.sn != ''">
+                and w.sn = #{dto.sn}
+            </if>
+            <if test="dto.name != null and dto.name != ''">
+                and w.name = #{dto.name}
+            </if>
+            <if test="dto.consultant != null and dto.consultant != ''">
+                and c.consult_teacher = #{dto.consultant}
+            </if>
+            <if test="true">
+                and c.consult_status is null and c.is_deleted = 0
+            </if>
+        </where>
+    </select>
+
+    <select id="consultantQueryRecordTotal" resultType="java.lang.Integer">
+        select count(*) from whitelist_setting w join consult_record c on w.sn = c.s_id
+        <where>
+            <if test="dto.sn != null and dto.sn != ''">
+                and w.sn = #{dto.sn}
+            </if>
+            <if test="dto.name != null and dto.name != ''">
+                and w.name = #{dto.name}
+            </if>
+            <if test="dto.consultant != null and dto.consultant != ''">
+                and c.consult_teacher = #{dto.consultant}
+            </if>
+            <if test="true">
+                and c.consult_status is not null and c.is_deleted = 0
+            </if>
+        </where>
+    </select>
+    <select id="consultantQueryRecord" resultType="com.example.mybatisplus.model.dto.ConsultRecordDTO">
+        select c.id as id, w.sn as sn, w.name as name, c.consult_location as location, c.consult_time as time, w.phone_number as phone,
+        c.consult_status as status from whitelist_setting w join consult_record c on w.sn = c.s_id
+        <where>
+            <if test="dto.sn != null and dto.sn != ''">
+                and w.sn = #{dto.sn}
+            </if>
+            <if test="dto.name != null and dto.name != ''">
+                and w.name = #{dto.name}
+            </if>
+            <if test="dto.consultant != null and dto.consultant != ''">
+                and c.consult_teacher = #{dto.consultant}
+            </if>
+            <if test="true">
+                and c.consult_status is not null and c.is_deleted = 0
+            </if>
+        </where>
+        limit #{startIndex}, #{pageSize}
     </select>
 
 </mapper>

@@ -4,6 +4,8 @@ import com.example.mybatisplus.common.JsonResponse;
 import com.example.mybatisplus.model.domain.VisitRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.mybatisplus.model.dto.ConsultTeacherDTO;
+import com.example.mybatisplus.model.dto.VisitConclusionDTO;
+import com.example.mybatisplus.model.dto.VisitConclusionSearchDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -18,4 +20,9 @@ import java.util.List;
  */
 public interface VisitRecordMapper extends BaseMapper<VisitRecord> {
     List<ConsultTeacherDTO> getDTO();
+
+    Integer visitQueryRecordsTotal(@Param("r") VisitConclusionSearchDTO visitConclusionSearchDTO);
+
+    List<VisitConclusionDTO> visitorQueryRecords(@Param("r") VisitConclusionSearchDTO visitConclusionSearchDTO,
+                                                 @Param("startIndex") Integer startIndex, @Param("pageSize") Integer pageSize);
 }
