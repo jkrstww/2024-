@@ -27,6 +27,7 @@ public class SecurityUtils {
 
     public static UserInfoDTO getUserInfo() {
         WhitelistSetting userInfo = SessionUtils.getCurrentUserInfo();
+
         UserInfoDTO userInfoDTO = new UserInfoDTO();
         //模拟登录
         if (userInfo == null) {

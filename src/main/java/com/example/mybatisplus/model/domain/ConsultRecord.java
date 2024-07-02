@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -34,6 +35,7 @@ public class ConsultRecord extends Model<ConsultRecord> {
     private Long id;
 
     @TableField("created_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdTime;
 
     @TableLogic
@@ -41,6 +43,7 @@ public class ConsultRecord extends Model<ConsultRecord> {
     private Integer deleted;
 
     @TableField("s_id")
+    @JsonProperty("sId")
     private String sId;
 
     @TableField("report_id")
@@ -56,12 +59,13 @@ public class ConsultRecord extends Model<ConsultRecord> {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime consultTime;
 
-
     private String consultStatus;
 
     private Long pId;
 
-    private byte[] phoneNumber;
+    private String phoneNumber;
+
+    private String approvedStatus;
 
 
     @Override

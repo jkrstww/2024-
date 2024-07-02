@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mybatisplus.mapper.AddRequestMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.mybatisplus.model.domain.AddRequest">
+        <id column="id" property="id" />
+        <result column="sn" property="sn" />
+        <result column="name" property="name" />
+        <result column="consultant" property="consultant" />
+        <result column="status" property="status" />
+        <result column="is_deleted" property="deleted" />
+        <result column="p_id" property="pId" />
+        <result column="created_time" property="createdTime" />
+    </resultMap>
+    <update id="addRequest">
+        update add_request set status = '待批准' where sn = #{dto.sn} and name = #{dto.name} and consultant = #{dto.consultant}
+    </update>
+    <update id="approve">
+        update add_request set status = '已批准' where sn = #{dto.sn} and name = #{dto.name} and consultant = #{dto.consultant}
+    </update>
+    <update id="reject">
+        update add_request set status = '已拒绝' where sn = #{dto.sn} and name = #{dto.name} and consultant = #{dto.consultant}
+    </update>
+    <select id="getList" resultType="com.example.mybatisplus.model.dto.AddRequestDTO">
+        select count(*) as times, s_id as sn, consult_teacher as consultant from consult_record
+        where consult_teacher = #{dto.consultant} and approved_status = '已批准' group by s_id order by times
+    </select>
+
+</mapper>

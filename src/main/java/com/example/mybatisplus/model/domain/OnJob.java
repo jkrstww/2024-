@@ -55,6 +55,10 @@ public class OnJob extends Model<OnJob> {
 
     private Integer status;
 
+    private String workDay;
+
+    private Long workPlace;
+
     @Override
     protected Serializable pkVal() {
         return this.id;

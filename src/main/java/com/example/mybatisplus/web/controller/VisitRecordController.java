@@ -2,7 +2,13 @@ package com.example.mybatisplus.web.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mybatisplus.common.utls.SecurityUtils;
+import com.example.mybatisplus.mapper.WhitelistSettingMapper;
+import com.example.mybatisplus.model.domain.WhitelistSetting;
 import com.example.mybatisplus.model.dto.PageDTO;
+import com.example.mybatisplus.model.dto.VisitConclusionDTO;
+import com.example.mybatisplus.model.dto.VisitConclusionSearchDTO;
+import com.example.mybatisplus.service.WhitelistSettingService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
@@ -15,6 +21,7 @@ import com.example.mybatisplus.service.VisitRecordService;
 import com.example.mybatisplus.model.domain.VisitRecord;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -24,6 +31,8 @@ public class VisitRecordController {
     private VisitRecordService visitRecordService;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private WhitelistSettingMapper whitelistSettingMapper;
 
     // 管理员查看所有记录
     @RequestMapping("/getAll")
@@ -34,7 +43,8 @@ public class VisitRecordController {
 
     @PostMapping("reserveRequest")
     public JsonResponse reserveRequest(@RequestBody VisitRecord visitRecord) {
-        String sId = (String) request.getSession().getAttribute("sn");
+        Long id = SecurityUtils.getUserInfo().getId();
+        String sId = whitelistSettingMapper.selectById(id).getSn();
         visitRecord.setSId(sId);
 
         visitRecordService.save(visitRecord);
@@ -65,19 +75,33 @@ public class VisitRecordController {
         }
     }
 
+    @PostMapping("/updateById")
+    public JsonResponse updateById(@RequestBody VisitRecord visitRecord) {
+        if (visitRecordService.teacherConflict(visitRecord)) {
+            return JsonResponse.failure("初访员忙碌");
+        } else if (visitRecordService.locationConflict(visitRecord)) {
+            return JsonResponse.failure("地点被占用");
+        } else {
+            visitRecordService.updateById(visitRecord);
+            return JsonResponse.success("修改成功");
+        }
+    }
+
     // 学生查看自己的预约记录
     @PostMapping("/getMyList")
     public JsonResponse getMyList(@RequestBody PageDTO pageDTO) {
-        String id = (String)request.getSession().getAttribute("sn");
-        Page<VisitRecord> page = visitRecordService.myPageList(id, pageDTO);
+        Long id = SecurityUtils.getUserInfo().getId();
+        String sId = whitelistSettingMapper.selectById(id).getSn();
+        Page<VisitRecord> page = visitRecordService.myPageList(sId, pageDTO);
         return JsonResponse.success(page);
     }
 
     // 学生查看自己的已批准的预约记录
     @PostMapping("/getMyApprovedList")
     public JsonResponse getMyApprovedList(@RequestBody PageDTO pageDTO) {
-        String id = (String)request.getSession().getAttribute("sn");
-        Page<VisitRecord> page = visitRecordService.myApprovedPageList(id, pageDTO);
+        Long id = SecurityUtils.getUserInfo().getId();
+        String sId = whitelistSettingMapper.selectById(id).getSn();
+        Page<VisitRecord> page = visitRecordService.myApprovedPageList(sId, pageDTO);
         return JsonResponse.success(page);
     }
 
@@ -99,6 +123,47 @@ public class VisitRecordController {
         } else {
             return JsonResponse.failure("撤销失败");
         }
+    }
+
+    // 根据时间查看未完成的预约记录
+    @PostMapping("/getUnfinishedVisitRecordsByTime")
+    public JsonResponse getUnfinishedVisitRecordsByTime(@RequestBody PageDTO pageDTO) {
+        Page<VisitRecord> page = visitRecordService.unfinishedPageListByTime(pageDTO);
+        return JsonResponse.success(page);
+    }
+
+    // 根据风险等级查看未完成的预约记录
+    @PostMapping("/getUnfinishedVisitRecordsByRisk")
+    public JsonResponse getUnfinishedVisitRecordsByRisk(@RequestBody PageDTO pageDTO) {
+        Page<VisitRecord> page = visitRecordService.unfinishedPageListByRisk(pageDTO);
+        return JsonResponse.success(page);
+    }
+
+    // 获取已批准的未完成的预约记录
+    @PostMapping("/getAwaitUpdateVisitRecords")
+    public JsonResponse getAwaitUpdateVisitRecords(@RequestBody PageDTO pageDTO) {
+        Page<VisitRecord> page = visitRecordService.awaitUpdatePageList(pageDTO);
+        return JsonResponse.success(page);
+    }
+
+    // 拒绝申请
+    @PostMapping("/rejectVisitRequest")
+    public JsonResponse rejectVisitRequest(@RequestBody VisitRecord visitRecord) {
+        System.out.println(visitRecord);
+        VisitRecord newVisitRecord = visitRecord.setStatus("已拒绝");
+        visitRecordService.updateById(newVisitRecord);
+        return JsonResponse.success(newVisitRecord);
+    }
+
+    // 初访员根据查询条件获取初访记录
+    @PostMapping("/visitorQueryRecords")
+    public JsonResponse visitorQueryRecords(@RequestBody VisitConclusionSearchDTO visitConclusionSearchDTO) {
+        List<VisitConclusionDTO> list = visitRecordService.visitorQueryRecords(visitConclusionSearchDTO);
+        Integer total = visitRecordService.visitorQueryRecordsTotal(visitConclusionSearchDTO);
+        return JsonResponse.success(new HashMap<Object, Object>() {{
+            put("total", total);
+            put("records", list);
+        }});
     }
 }
 

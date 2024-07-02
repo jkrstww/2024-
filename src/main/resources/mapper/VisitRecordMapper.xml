@@ -25,4 +25,48 @@
     <select id="getDTO" resultType="com.example.mybatisplus.model.dto.ConsultTeacherDTO">
         select visit_teacher as name, count(*) as times from visit_record group by visit_teacher
     </select>
+    <select id="visitQueryRecordsTotal" resultType="java.lang.Integer">
+        select count(*) from student s join visit_record v on s.sn = v.s_id
+        <where>
+            <if test="r.sId != null and r.sId != ''">
+                and s.sn = #{r.sId}
+            </if>
+            <if test="r.name != null and r.name != ''">
+                and s.name = #{r.name}
+            </if>
+            <if test="r.campus != null and r.campus != '' and r.campus != '全部'">
+                and s.campus = #{r.campus}
+            </if>
+            <if test="r.college != null and r.college !='' and r.college != '全部'">
+                and s.college = #{r.college}
+            </if>
+            <if test="r.visitor != null and r.visitor != ''">
+                and v.visit_teacher = #{r.visitor}
+            </if>
+        </where>
+    </select>
+
+    <select id="visitorQueryRecords" resultType="com.example.mybatisplus.model.dto.VisitConclusionDTO">
+        select v.id as id,  s.sn as sId, s.name as name, s.gender as gender, s.campus as campus, s.college as college,
+               s.phone_number as phoneNumber, v.visit_time as visitTime, v.risk_rank as riskRank, v.problem as problem,
+               v.conclusion as conclusion, v.status as status from student s join visit_record v on s.sn = v.s_id
+        <where>
+            <if test="r.sId != null and r.sId != ''">
+                and s.sn = #{r.sId}
+            </if>
+            <if test="r.name != null and r.name != ''">
+                and s.name = #{r.name}
+            </if>
+            <if test="r.campus != null and r.campus != '' and r.campus != '全部'">
+                and s.campus = #{r.campus}
+            </if>
+            <if test="r.college != null and r.college !='' and r.college != '全部'">
+                and s.college = #{r.college}
+            </if>
+            <if test="r.visitor != null and r.visitor != ''">
+                and v.visit_teacher = #{r.visitor}
+            </if>
+        limit #{startIndex}, #{pageSize}
+        </where>
+    </select>
 </mapper>

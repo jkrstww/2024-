@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -17,13 +18,13 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author lxp
- * @since 2024-06-22
+ * @since 2024-07-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="WhitelistSetting对象", description="")
-public class WhitelistSetting extends Model<WhitelistSetting> {
+@ApiModel(value="AddRequest对象", description="")
+public class AddRequest extends Model<AddRequest> {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,30 +33,19 @@ public class WhitelistSetting extends Model<WhitelistSetting> {
 
     private String sn;
 
-    private String password;
-
     private String name;
 
-    private Long roleId;
+    private String consultant;
 
-    @TableField("is_enabled")
-    private Integer enabled;
+    private String status;
 
     @TableField("is_deleted")
     @TableLogic
     private Integer deleted;
 
-    private LocalDateTime gmtCreated;
+    private Long pId;
 
-    private LocalDateTime gmtModified;
-
-    private String phoneNumber;
-
-    private Boolean onDuty;
-
-    private String workDay;
-
-    private Long workPlace;
+    private LocalDateTime createdTime;
 
 
     @Override

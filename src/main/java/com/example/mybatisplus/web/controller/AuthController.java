@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     @GetMapping("/userInfo")
     public JsonResponse<UserInfoDTO> getUserInfo() {
-        System.out.println(SecurityUtils.getUserInfo());
         return JsonResponse.success(SecurityUtils.getUserInfo());
     }
 }

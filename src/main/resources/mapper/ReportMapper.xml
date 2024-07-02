@@ -18,5 +18,11 @@
         <result column="times" property="times" />
         <result column="age" property="age" />
     </resultMap>
+    <update id="finishRecord">
+        update consult_record set approved_status = '已完成' where s_id = #{sn} and consult_teacher = #{consultant}
+    </update>
+    <select id="recordTimes" resultType="java.lang.Integer">
+        select count(*) from consult_record where consult_status is not null and approved_status = '已批准' and s_id = #{sn} and consult_teacher = #{consultant}
+    </select>
 
 </mapper>

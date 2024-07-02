@@ -2,6 +2,7 @@ package com.example.mybatisplus.web.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.example.mybatisplus.model.domain.WhitelistSetting;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 import org.slf4j.Logger;
@@ -76,6 +77,21 @@ public class OnJobController {
         updateWrapper.eq("id", id).set("status", 0);
         onJobService.update(updateWrapper);
         return JsonResponse.success("修改成功");
+    }
+
+    @PostMapping("/getMy")
+    public JsonResponse getMy(@RequestBody WhitelistSetting whitelistSetting) {
+        Long id = whitelistSetting.getId();
+        OnJob onJob = onJobService.getById(id);
+
+        return JsonResponse.success(onJob);
+    }
+
+    @PostMapping("/update")
+    public JsonResponse update(@RequestBody OnJob onJob) {
+        onJobService.updateById(onJob);
+
+        return JsonResponse.success(onJob);
     }
 }
 
