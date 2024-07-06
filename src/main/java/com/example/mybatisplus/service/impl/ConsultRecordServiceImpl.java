@@ -5,12 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mybatisplus.model.domain.ConsultRecord;
 import com.example.mybatisplus.mapper.ConsultRecordMapper;
-import com.example.mybatisplus.model.dto.ConsultRecordDTO;
-import com.example.mybatisplus.model.dto.ConsultRecordSearchDTO;
-import com.example.mybatisplus.model.dto.ConsultTeacherDTO;
-import com.example.mybatisplus.model.dto.PageDTO;
+import com.example.mybatisplus.model.dto.*;
 import com.example.mybatisplus.service.ConsultRecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.sms.core.SmsTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +26,8 @@ import java.util.List;
 public class ConsultRecordServiceImpl extends ServiceImpl<ConsultRecordMapper, ConsultRecord> implements ConsultRecordService {
     @Autowired
     private ConsultRecordMapper consultRecordMapper;
+    @Autowired
+    private SmsTemplate smsTemplate;
 
     @Override
     public List<ConsultRecordDTO> consultantCheckRecord(ConsultRecordSearchDTO consultRecordSearchDTO) {
@@ -129,6 +129,16 @@ public class ConsultRecordServiceImpl extends ServiceImpl<ConsultRecordMapper, C
         Integer pageSize = consultRecordSearchDTO.getPageSize();
 
         return consultRecordMapper.consultantQueryRecord(consultRecordSearchDTO, (pageNo-1)*pageSize, pageSize);
+    }
+
+//    发送通知
+    @Override
+    public void sendNotification(NotificationDTO notificationDTO, ConsultRecord consultRecord) {
+        String consultTeacher = notificationDTO.getConsultTeacher();
+        String consultDate = notificationDTO.getConsultDate();
+        String consultPeriod = notificationDTO.getConsultPeriod();
+        String consultLocation = notificationDTO.getConsultLocation();
+        smsTemplate.sendMsg2(phoneNumber, name, consultDate, consultPeriod, consultTeacher, consultLocation);
     }
 
     @Override

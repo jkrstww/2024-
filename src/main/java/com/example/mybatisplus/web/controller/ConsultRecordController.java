@@ -239,5 +239,11 @@ public class ConsultRecordController {
 
         return JsonResponse.success(null);
     }
+
+    @GetMapping("sendNotification")
+    public JsonResponse sendNotification(NotificationDTO notificationDTO, ConsultRecord consultRecord) {
+        consultRecordService.sendNotification(notificationDTO, consultRecord);
+        return JsonResponse.success(null);
+    }
 }
 

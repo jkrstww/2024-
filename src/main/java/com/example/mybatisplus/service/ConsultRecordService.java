@@ -3,10 +3,7 @@ package com.example.mybatisplus.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mybatisplus.model.domain.ConsultRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.mybatisplus.model.dto.ConsultRecordDTO;
-import com.example.mybatisplus.model.dto.ConsultRecordSearchDTO;
-import com.example.mybatisplus.model.dto.ConsultTeacherDTO;
-import com.example.mybatisplus.model.dto.PageDTO;
+import com.example.mybatisplus.model.dto.*;
 
 import java.util.List;
 
@@ -40,6 +37,7 @@ public interface ConsultRecordService extends IService<ConsultRecord> {
 
     Page<ConsultRecord> queryPage(ConsultRecord consultRecord, PageDTO pageDTO);
 
+
     boolean locationConflict(ConsultRecord consultRecord);
 
     boolean teacherConflict(ConsultRecord consultRecord);
@@ -47,4 +45,6 @@ public interface ConsultRecordService extends IService<ConsultRecord> {
     Integer consultantQueryRecordTotal(ConsultRecordSearchDTO consultRecordSearchDTO);
 
     List<ConsultRecordDTO> consultantQueryRecord(ConsultRecordSearchDTO consultRecordSearchDTO);
+
+    void sendNotification(NotificationDTO notificationDTO, ConsultRecord consultRecord);
 }
