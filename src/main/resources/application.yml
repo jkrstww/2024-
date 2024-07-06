@@ -24,3 +24,12 @@ logging:
   level:
     com.example.mybatisplus.mapper: debug
 file-upload-path: ./file
+
+test:
+  sms:
+    accessKeyId: LTAI5t7rv2eV4KdoNacCrDzm
+    accessKeySecret: GvCJB2nfeo72Z3cNm6bHYLuDvX1BGr
+    signName: 学生心理咨询平台
+    templateCode: SMS_468770282
+    templateCode2: SMS_468510335
+    rigon: cn-hangzhou

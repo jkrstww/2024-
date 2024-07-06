@@ -10,11 +10,13 @@ import com.example.mybatisplus.model.domain.VisitRecord;
 import com.example.mybatisplus.mapper.VisitRecordMapper;
 import com.example.mybatisplus.model.domain.VisitRequest;
 import com.example.mybatisplus.model.domain.WhitelistSetting;
+import com.example.mybatisplus.model.dto.FirstVisitNotificationDTO;
 import com.example.mybatisplus.model.dto.PageDTO;
 import com.example.mybatisplus.model.dto.VisitConclusionDTO;
 import com.example.mybatisplus.model.dto.VisitConclusionSearchDTO;
 import com.example.mybatisplus.service.VisitRecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.sms.core.SmsTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,8 @@ public class VisitRecordServiceImpl extends ServiceImpl<VisitRecordMapper, Visit
     private VisitRecordMapper visitRecordMapper;
     @Autowired
     private WhitelistSettingMapper whitelistSettingMapper;
+    @Autowired
+    private SmsTemplate smsTemplate;
 
     @Override
     public boolean teacherConflict(VisitRecord visitRecord) {
@@ -157,5 +161,14 @@ public class VisitRecordServiceImpl extends ServiceImpl<VisitRecordMapper, Visit
         visitConclusionSearchDTO.setVisitor(name);
 
         return visitRecordMapper.visitQueryRecordsTotal(visitConclusionSearchDTO);
+    }
+
+    @Override
+    public void sendVisitNotification(FirstVisitNotificationDTO firstVisitNotificationDTO, VisitRecord visitRecord) {
+        String visitTeacher = firstVisitNotificationDTO.getVisitTeacher();
+        String visitDate = firstVisitNotificationDTO.getVisitDate();
+        String visitPeriod = firstVisitNotificationDTO.getVisitPeriod();
+        String visitLocation = firstVisitNotificationDTO.getVisitLocation();
+        smsTemplate.sendMsg3(phoneNumber, name, visitDate, visitPeriod, visitTeacher, visitLocation);
     }
 }

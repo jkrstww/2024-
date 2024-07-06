@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mybatisplus.common.JsonResponse;
 import com.example.mybatisplus.model.domain.VisitRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.mybatisplus.model.dto.FirstVisitNotificationDTO;
 import com.example.mybatisplus.model.dto.PageDTO;
 import com.example.mybatisplus.model.dto.VisitConclusionDTO;
 import com.example.mybatisplus.model.dto.VisitConclusionSearchDTO;
@@ -41,4 +42,6 @@ public interface VisitRecordService extends IService<VisitRecord> {
     List<VisitConclusionDTO> visitorQueryRecords(VisitConclusionSearchDTO visitConclusionSearchDTO);
 
     Integer visitorQueryRecordsTotal(VisitConclusionSearchDTO visitConclusionSearchDTO);
+
+    void sendVisitNotification(FirstVisitNotificationDTO firstVisitNotificationDTO, VisitRecord visitRecord);
 }

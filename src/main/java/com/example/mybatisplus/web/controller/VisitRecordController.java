@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mybatisplus.common.utls.SecurityUtils;
 import com.example.mybatisplus.mapper.WhitelistSettingMapper;
 import com.example.mybatisplus.model.domain.WhitelistSetting;
+import com.example.mybatisplus.model.dto.FirstVisitNotificationDTO;
 import com.example.mybatisplus.model.dto.PageDTO;
 import com.example.mybatisplus.model.dto.VisitConclusionDTO;
 import com.example.mybatisplus.model.dto.VisitConclusionSearchDTO;
@@ -164,6 +165,12 @@ public class VisitRecordController {
             put("total", total);
             put("records", list);
         }});
+    }
+
+    @GetMapping("sendVisitNoitification")
+    public JsonResponse sendVisitNotification(FirstVisitNotificationDTO firstVisitNotificationDTO, VisitRecord visitRecord) {
+        visitRecordService.sendVisitNotification(firstVisitNotificationDTO, visitRecord);
+        return JsonResponse.success(null);
     }
 }
 
